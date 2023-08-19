@@ -1,0 +1,624 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  background-color: #f9f9f9;
+  /* background: white; */
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navLogo {
+  width: 260px;
+}
+
+.imgLogoDiv {
+  margin: 0.5rem;
+}
+
+.nav--links {
+  font-size: 1.4em;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-decoration: none;
+}
+
+.nav--links li {
+  padding: 12px;
+  list-style: none;
+  font-family: "Roboto", sans-serif;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+}
+
+li:hover {
+  text-decoration-line: underline;
+  text-decoration-color: #ec9131;
+}
+
+section {
+  height: 100vh;
+  /* overflow-y: auto; */
+  overflow-x: hidden;
+  perspective: 10px;
+}
+
+section {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+section::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.mainImg {
+  object-fit: cover;
+  width: 70%;
+  transform: translateZ(-10px) scale(2);
+}
+
+header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  transform-style: preserve-3d;
+  z-index: -1;
+}
+
+.overText {
+  position: absolute;
+  top: 50%;
+  right: 40%;
+  left: 10%;
+  background-color: #ffcc00;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.mainTexts {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  background-color: white;
+  padding: 6em;
+}
+
+.section--heading {
+  color: rgb(234, 97, 97);
+  font-size: 1.5em;
+}
+
+.main--heading {
+  font-size: 1rem;
+  line-height: 1.6em;
+  padding: 2em;
+}
+
+.sub--headings {
+  color: rgb(234, 97, 97);
+  font-size: 1.3rem;
+}
+
+.iconsSize{
+  width: 3rem;
+  height : 3rem;
+}
+
+.startDraw {
+  background-color: #ffcc00;
+  padding: 0.7rem;
+  box-shadow: 2px 3px 2px rgb(209, 209, 209);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin: 30px;
+  color: black;
+  font-weight: 550;
+  border-radius: 7px;
+  width: fit-content;
+}
+
+a:hover,
+a:active,
+a:link,
+a:visited {
+  text-decoration: none;
+}
+
+.setPadding {
+  line-height: 1.6em;
+  padding: 2em;
+}
+
+.grid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.vectorImg {
+  width: 15%;
+  object-fit: scale-down;
+}
+
+.footerBG {
+  z-index: -10;
+  background-color: rgb(56, 54, 54);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.twitterIcon,
+.githubIcon,
+.discordIcon {
+  width: 7%;
+  cursor: pointer;
+  padding: 0.3rem;
+}
+
+.footerContent {
+  display: flex;
+  justify-content: center;
+  padding: 1.5em;
+}
+
+.logoname {
+  font-size: 1.5rem;
+  color: rgb(246, 72, 72);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.textFooter {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.canvas {
+  border: 1px solid black;
+}
+
+.canvas__container {
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-template-rows: 1fr;
+  touch-action: none;
+}
+
+.save {
+  font-size: 1.5em;
+}
+
+.save i {
+  color: red;
+}
+
+.drawLogo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 60%;
+}
+.side__panel {
+  background: #eedb8e;
+  display: grid;
+  z-index: 2;
+  grid-template-rows: 30% 70%;
+  place-items: center;
+}
+
+.sideIcons {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(4, 1fr);
+  gap: 50px;
+  /* margin-top : 1em; */
+  width: 100%;
+}
+
+.sideIcons > div {
+  display: flex;
+  /* grid-template-columns: 70% 50%; */
+  justify-content: space-evenly;
+}
+
+.drawLine {
+  border: 2px solid #ec9131;
+  padding: 10px;
+  border-radius: 0.3rem;
+}
+
+.drawLine:hover {
+  cursor: pointer;
+  background: #ffcc00;
+  color: white;
+}
+
+.setFontSize {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.signUp {
+  background-color: #eedb8e;
+  border-radius: 0.4rem;
+  font-weight: bold;
+}
+
+.loginContainer {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  background: #eedb8e;
+}
+
+.error {
+  background: rgb(225, 97, 97);
+  color: white;
+  font-size: 1rem;
+  border-radius: 10px;
+  margin: 1rem;
+  padding: 0.5rem;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.loginFormLink{
+  font-size: 1.5rem;
+  color: rgb(116, 116, 255);
+  cursor: pointer;
+}
+
+.login{
+  color: blue;
+  text-decoration: underline;
+}
+
+.position {
+  display: flex;
+  justify-content: center;
+}
+
+.signUp__heading {
+  color: #b75f00;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+form {
+  display: grid;
+  grid-template-rows: repeat(4,auto);
+  background: #f4f4f4;
+  box-shadow: 2px 2px 2px gray;
+  padding: 4rem;
+  gap: 10px;
+  border-radius: 2rem;
+  height: 500px;
+  background: url("../assets/mainImg/loginForm.jpg") no-repeat;
+  background-size: cover;
+}
+
+.icons_size {
+  font-size: 1.5rem;
+}
+
+label,
+span {
+  font-size: 1.5rem;
+  color: #000000;
+  display: inline;
+}
+
+.modal_heading{
+  color: #ec9131;
+  font-size: 2em;
+}
+
+.modalBackground{
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(225, 221, 221);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal{
+  width: fit-content;
+  z-index: 10;
+  height: fit-content;
+  /* min-height: 400px;
+  min-width: 500px; */
+  padding: 2em;
+  border-radius: 2em;
+  background-color: #ffffff;
+  box-shadow: 6px 16px 6px gray;
+}
+
+.shareIconsGrid{
+  margin-top: 2em;
+  display: grid;
+  gap: 2em;
+  grid-template-columns: repeat(4,0.5fr);
+}
+
+form input {
+  padding: 0.4rem;
+  background: #f2af04;
+  border: 0;
+  width: 250px;
+}
+
+.loginImg {
+  width: 100%;
+  height: 100%;
+}
+
+.postBtn{
+  z-index: 9;
+  cursor:pointer;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  color: white;
+  background-color: rgb(251, 97, 14);
+  padding: 0.5em;
+  font-size: 1.1em;
+  border: none;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-radius: 0.5rem;
+}
+
+.submit {
+  padding: 0.5rem;
+  color: white;
+  background-color: #f2af04;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 0;
+}
+
+.loginError {
+  text-align: center;
+  padding: 2rem;
+  font-size: 2rem;
+  color: rgb(235, 99, 99);
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+.barIcon {
+  display: none;
+}
+
+.menuBar {
+  display: none;
+}
+
+@media screen and (max-width: 1100px) {
+  .nav--links li {
+    display: none;
+  }
+  .barIcon {
+    display: flex;
+    color: #f2af04;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+  .overText {
+    position: absolute;
+    top: 50%;
+    right: 40%;
+    background-color: #ffcc00;
+    font-size: 1.7rem;
+    font-weight: bold;
+    padding: 1rem;
+    border-radius: 6px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .setPadding {
+    line-height: 1.6em;
+    padding: 1.3em;
+  }
+  .twitterIcon,
+  .githubIcon,
+  .discordIcon {
+    width: 13%;
+    cursor: pointer;
+    padding: 0.3rem;
+  }
+  .overText {
+    position: absolute;
+    top: 50%;
+    right: 40%;
+    background-color: #ffcc00;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.8rem;
+    border-radius: 6px;
+  }
+  .mainImg {
+    object-fit: cover;
+    width: 60%;
+    transform: translateZ(-10px) scale(2);
+  }
+  .mainTexts {
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+    background-color: white;
+    padding: 3em;
+  }
+  form {
+    margin: 3em;
+    padding: 3em;
+  }
+  .loginImg {
+    display: none;
+    width: 0;
+  }
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginContainer {
+    display: grid;
+    grid-template-columns: 50%;
+    place-content: center;
+    place-items: center;
+  }
+  /* aside .setFontSize{
+      font-size: 0.5rem;
+    } */
+  /* .canvas__container {
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 40% 60%;
+      grid-template-rows: 1fr;
+    } */
+  .testScreen {
+    width: 100vw;
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .menuBar {
+    display: block;
+    padding: 2rem;
+    background-color: #eedb8e;
+    margin: 0.5em;
+    border-radius: 0.5rem;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  }
+
+  .menuBar ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 20rem;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+  }
+  .menuBar ul li {
+    list-style: none;
+    font-size: 1.5rem;
+    text-decoration: none;
+  }
+  .menuBar ul li:hover {
+    font-size: 2rem;
+    color: #b75f00;
+    cursor: pointer;
+  }
+  .canvas__container {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: grid;
+    grid-template-columns: 100%;
+    /* grid-template-rows: 70% 30%; */
+    touch-action: none;
+  }
+  .drawLogo {
+    width: 50%;
+    height: 50%;
+  }
+  .imgLogoDiv {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+  }
+
+  .gap {
+    font-size: 1.1em;
+    padding-right: 1em;
+  }
+
+  .sideIcons{
+    display: flex;
+    justify-content: space-evenly ;
+    flex-wrap: wrap;
+    /* grid-template-columns: repeat(2,1fr); */
+    gap: 20px;
+  }
+
+  .side__panel {
+    /* z-index: 2; */
+    overflow-y: scroll;
+    padding: 1.5em;
+    display: flex;
+    justify-content: space-between;
+    order: 2;
+  }
+}
+
+/* .canvasContainer{
+  border: 5px solid red;
+}
+
+aside{
+  border: 4px solid #b75f00;
+} */
+
+@media screen and (max-width: 1000px) and (min-width: 767px) {
+  .loginContainer {
+    display: grid;
+    grid-template-columns: 50% 40%;
+    gap: 2em;
+    /* grid-template-rows: 1fr; */
+    background: #eedb8e;
+  }
+
+  form {
+    padding: 2em;
+    margin: 1em;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  form {
+    padding: 1.5em;
+    margin: 0.9em;
+  }
+  .mainTexts {
+    padding: 1.5em;
+  }
+  .mainImg {
+    width: 80%;
+  }
+}
