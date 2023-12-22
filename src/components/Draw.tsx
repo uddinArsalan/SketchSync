@@ -123,12 +123,17 @@ const Draw = () => {
     context.updateImg(canvasImage!);
   };
 
+  useEffect(() => {
+    if(canvas){
+      fetch(canvas.toDataURL())
+        .then(res => res.blob())
+        .then(blob => setImageUrl(URL.createObjectURL(blob).replace(/^blob:/, '')))
+    }
+
+  },[canvas])
   
   const shareOnSocials = () => {
     // console.log(canvas.toDataURL())
-    fetch(canvas.toDataURL())
-      .then(res => res.blob())
-      .then(blob => setImageUrl(URL.createObjectURL(blob)))
     if (navigator.share) {
       navigator.share({
         title: 'My Image',
