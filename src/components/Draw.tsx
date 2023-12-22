@@ -130,7 +130,7 @@ const Draw = () => {
       fetch(canvas.toDataURL())
         .then(res => res.blob())
         .then((blob) => {
-          console.log(blob)
+          // console.log(blob)
           setImageUrlBlob(blob)
           setImageUrl(URL.createObjectURL(blob).replace(/^blob:/, ''))
         })
@@ -138,23 +138,22 @@ const Draw = () => {
       
   },[canvas,isDrawing])
 
-  useEffect(() => {
-    if (imageUrlBlob != null) {
-      const files = new File([imageUrlBlob], 'sketch.png', { type: imageUrlBlob.type });
-      setFile(files);
-    }
-  }, [imageUrlBlob]);
+  // useEffect(() => {
+  //   if (imageUrlBlob != null) {
+  //     const files = new File([imageUrlBlob], 'sketch.png', { type: imageUrlBlob.type });
+  //     setFile(files);
+  //   }
+  // }, [imageUrlBlob]);
 
   //URL.createObjectURL().replace(/^blob:/, '')
   
   const shareOnSocials = () => {
-    console.log(file)
-    if (navigator.share && file != undefined) {
+    if (navigator.share && imageUrlBlob) {
       navigator.share({
         title: 'My Image',
         text: 'Check out this awesome Art made my me using SketchSync!',
         url: imageUrl,
-        files : [file]
+        files : [new File([imageUrlBlob], 'sketch.png', { type: imageUrlBlob.type })]
       })
       .then(() => console.log('Shared successfully'))
       .catch((error) => console.error('Error sharing:', error));
