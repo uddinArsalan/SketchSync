@@ -110,8 +110,8 @@ header {
 }
 
 .iconsSize{
-  width: 3rem;
-  height : 3rem;
+  width: 2rem;
+  height : 2rem;
 }
 
 .startDraw {
@@ -190,13 +190,10 @@ a:visited {
   color: white;
 }
 
-.canvas {
-  border: 1px solid black;
-}
-
 .canvas__container {
   overflow-x: hidden;
   display: grid;
+  border: none;
   grid-template-columns: 20% 80%;
   grid-template-rows: 1fr;
   touch-action: none;
@@ -220,7 +217,7 @@ a:visited {
   background: #eedb8e;
   display: grid;
   z-index: 2;
-  grid-template-rows: 30% 70%;
+  grid-template-rows: 20% 80%;
   place-items: center;
 }
 
@@ -228,7 +225,7 @@ a:visited {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(4, 1fr);
-  gap: 50px;
+  gap: 30px;
   /* margin-top : 1em; */
   width: 100%;
 }
@@ -547,7 +544,7 @@ form input {
   }
   .canvas__container {
     overflow-x: hidden;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     display: grid;
     grid-template-columns: 100%;
     /* grid-template-rows: 70% 30%; */
@@ -564,11 +561,6 @@ form input {
     top: 0;
   }
 
-  .gap {
-    font-size: 1.1em;
-    padding-right: 1em;
-  }
-
   .sideIcons{
     display: flex;
     justify-content: space-evenly ;
@@ -579,7 +571,7 @@ form input {
 
   .side__panel {
     /* z-index: 2; */
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     padding: 1.5em;
     display: flex;
     justify-content: space-between;
@@ -621,4 +613,20 @@ aside{
   .mainImg {
     width: 80%;
   }
+}
+
+.canvas{
+  border: none;
+}
+
+.text-bold{
+  font-weight: bold;
+  font-size: larger;
+}
+
+.icons_flex{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }

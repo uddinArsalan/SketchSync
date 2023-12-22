@@ -43,6 +43,7 @@ const Draw = () => {
   }>({ x: null, y: null });
   const c = canvas?.getContext("2d") as CanvasRenderingContext2D;
   const [color, setColor] = useState("");
+  const [imageUrl,setImageUrl] = useState("http://example.com/")
   const [strokeWidth, setStrokeWidth] = useState(1.0);
   const [isDrawing, setIsDrawing] = useState(false);
   const [stateStack, setStateStack] = useState<ImageData[]>([]);
@@ -122,6 +123,26 @@ const Draw = () => {
     context.updateImg(canvasImage!);
   };
 
+  
+  const shareOnSocials = () => {
+    // console.log(canvas.toDataURL())
+    fetch(canvas.toDataURL())
+      .then(res => res.blob())
+      .then(blob => setImageUrl(URL.createObjectURL(blob)))
+    if (navigator.share) {
+      navigator.share({
+        title: 'My Image',
+        text: 'Check out this awesome Art made my me using SketchSync!',
+        url: imageUrl
+      })
+      .then(() => console.log('Shared successfully'))
+      .catch((error) => console.error('Error sharing:', error));
+    } else {
+      console.log('Web Share API not supported');
+    }
+    
+  }
+
   return (
     <div>
       <button onClick={PostDrawing} className="postBtn">
@@ -149,8 +170,8 @@ const Draw = () => {
           <div className="sideIcons">
             {/* <div className=" setFontSize">Draw Line</div> */}
             {/* <div className="selectPencil setFontSize">Pencil</div> */}
-            <div>
-              <label htmlFor="color" className="gap">
+            <div className="icons_flex">
+              <label htmlFor="color">
               <img src={strokeColor} alt="" className="iconsSize"/>
               </label>
               <input
@@ -161,9 +182,9 @@ const Draw = () => {
               />
             </div>
             {/* <div className="selectSkecthes setFontSize">Sketches</div> */}
-            <div>
-              <label htmlFor="strokeWidth" className="gap">
-                Stroke Width
+            <div className="icons_flex">
+              <label htmlFor="strokeWidth" className="text-bold">
+                Width
               </label>
               <input
                 type="number"
@@ -173,18 +194,16 @@ const Draw = () => {
                 onChange={(e) => setStrokeWidth(parseInt(e.target.value))}
               />
             </div>
-            {/* <div className="selectBrush setFontSize">Brushes</div> */}
-            {/* <div className="selectEraser setFontSize">Eraser</div> */}
-            <div className="">
-              <span className="gap">Redo</span>
+            <div className="icons_flex">
+              <span className=" text-bold">Redo</span>
               <i
                 className="ri-arrow-go-back-line icons_size"
                 onClick={redo}
               ></i>
             </div>
 
-            <div className="save">
-              <span>Save</span>
+            <div className="icons_flex">
+              <span className="text-bold">Save</span>
               <div>
                 <i
                   className={`ri-heart-${fill ? "fill" : "line"}`}
@@ -193,11 +212,12 @@ const Draw = () => {
               </div>
             </div>
 
-            <div>
-              <span className="gap">Share</span>
+            <div className="icons_flex">
+              <span className=" text-bold">Share</span>
               <i
                 className="ri-share-fill icons_size"
-                onClick={() => setModal((prev) => !prev)}
+                // onClick={() => setModal((prev) => !prev)}
+                onClick={shareOnSocials}
               ></i>
             </div>
           </div>
