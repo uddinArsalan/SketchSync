@@ -43,10 +43,12 @@ const Draw = () => {
   }>({ x: null, y: null });
   const c = canvas?.getContext("2d") as CanvasRenderingContext2D;
   const [color, setColor] = useState("");
-  const [imageUrl,setImageUrl] = useState("http://example.com/")
+  const [imageUrlBlob,setImageUrlBlob] = useState<Blob | null>(null)
+  const [imageUrl,setImageUrl] = useState("")
   const [strokeWidth, setStrokeWidth] = useState(1.0);
   const [isDrawing, setIsDrawing] = useState(false);
   const [stateStack, setStateStack] = useState<ImageData[]>([]);
+  const [file,setFile] = useState<File>()
   const [fill, setFill] = useState(false);
 
   const isMobile = useMediaQuery({
@@ -127,18 +129,34 @@ const Draw = () => {
     if(canvas){
       fetch(canvas.toDataURL())
         .then(res => res.blob())
-        .then(blob => setImageUrl(URL.createObjectURL(blob).replace(/^blob:/, '')))
-    }
-
+        .then(blob => {
+          setImageUrlBlob(blob)
+          setImageUrl(URL.createObjectURL(blob).replace(/^blob:/, ''))
+        })
+      }
+      
   },[canvas])
+
+  useEffect(() => {
+    if (imageUrlBlob != null) {
+      const files = new File([imageUrlBlob], 'sketch.png', { type: imageUrlBlob.type });
+      setFile(files);
+    }
+  }, [imageUrlBlob]);
+
+  //URL.createObjectURL().replace(/^blob:/, '')
   
   const shareOnSocials = () => {
     // console.log(canvas.toDataURL())
-    if (navigator.share) {
+    // console.log(canvas.toDataURL('image/png'))
+    // console.log(imageUrl)
+    console.log(file)
+    if (navigator.share && file != undefined) {
       navigator.share({
         title: 'My Image',
         text: 'Check out this awesome Art made my me using SketchSync!',
-        url: imageUrl
+        url: imageUrl,
+        files : [file]
       })
       .then(() => console.log('Shared successfully'))
       .catch((error) => console.error('Error sharing:', error));
