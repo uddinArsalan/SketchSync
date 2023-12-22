@@ -6,36 +6,17 @@ import {
   useEffect,
   ChangeEvent,
 } from "react";
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  LinkedinShareButton,
-  WhatsappShareButton,
-  TelegramShareButton,
-  EmailShareButton,
-  TwitterIcon,
-  WhatsappIcon,
-  LinkedinIcon,
-  EmailIcon,
-  FacebookIcon,
-  TelegramIcon,
-} from "react-share";
 import { useMediaQuery } from "react-responsive";
 import strokeColor from "../assets/mainImg/strokeColor.png";
-// import { Link } from "react-router-dom";
 import navLogo from "../assets/logo/sketchsync-high-resolution-logo-black-on-transparent-background.png";
 import { FirebaseContext } from "../context/FirebaseContext";
-import { createPortal } from "react-dom";
 
 const Draw = () => {
-  // console.log(window.innerWidth)
   const sidebarRef = useRef<HTMLElement>(null);
   const [sidebarWidth, setSideBarWidth] = useState(0);
   const [sidebarHeight, setSideBarHeight] = useState(0);
-  const [modal, setModal] = useState(false);
   const context = useContext(FirebaseContext);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  // let stateStack : object[] = []
   const canvas = canvasRef.current as HTMLCanvasElement;
   const [coordinates, setCoordinates] = useState<{
     x: number | null;
@@ -44,8 +25,6 @@ const Draw = () => {
   const c = canvas?.getContext("2d") as CanvasRenderingContext2D;
   const [color, setColor] = useState("");
   const [imageUrlBlob,setImageUrlBlob] = useState<Blob | null>(null)
-  const [imageUrl,setImageUrl] = useState("")
-  const [file,setFile] = useState<File>()
   const [strokeWidth, setStrokeWidth] = useState(1.0);
   const [isDrawing, setIsDrawing] = useState(false);
   const [stateStack, setStateStack] = useState<ImageData[]>([]);
@@ -130,9 +109,8 @@ const Draw = () => {
       fetch(canvas.toDataURL())
         .then(res => res.blob())
         .then((blob) => {
-          // console.log(blob)
           setImageUrlBlob(blob)
-          setImageUrl(URL.createObjectURL(blob).replace(/^blob:/, ''))
+          // setImageUrl(URL.createObjectURL(blob).replace(/^blob:/, ''))
         })
       }
       
@@ -152,7 +130,6 @@ const Draw = () => {
       navigator.share({
         title: 'My Image',
         text: 'Check out this awesome Art made my me using SketchSync!',
-        url: imageUrl,
         files : [new File([imageUrlBlob], 'sketch.png', { type: imageUrlBlob.type })]
       })
       .then(() => console.log('Shared successfully'))
@@ -254,7 +231,7 @@ const Draw = () => {
           ></canvas>
         </div>
       </div>
-      {modal &&
+      {/* {modal &&
         createPortal(
           <div className="modalBackground">
             <div className="modal">
@@ -305,7 +282,7 @@ const Draw = () => {
             </div>
           </div>,
           document.querySelector("#root") as HTMLElement
-        )}
+        )} */}
     </div>
   );
 };
