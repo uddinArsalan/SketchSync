@@ -45,10 +45,10 @@ const Draw = () => {
   const [color, setColor] = useState("");
   const [imageUrlBlob,setImageUrlBlob] = useState<Blob | null>(null)
   const [imageUrl,setImageUrl] = useState("")
+  const [file,setFile] = useState<File>()
   const [strokeWidth, setStrokeWidth] = useState(1.0);
   const [isDrawing, setIsDrawing] = useState(false);
   const [stateStack, setStateStack] = useState<ImageData[]>([]);
-  const [file,setFile] = useState<File>()
   const [fill, setFill] = useState(false);
 
   const isMobile = useMediaQuery({
@@ -129,13 +129,14 @@ const Draw = () => {
     if(canvas){
       fetch(canvas.toDataURL())
         .then(res => res.blob())
-        .then(blob => {
+        .then((blob) => {
+          console.log(blob)
           setImageUrlBlob(blob)
           setImageUrl(URL.createObjectURL(blob).replace(/^blob:/, ''))
         })
       }
       
-  },[canvas])
+  },[canvas,isDrawing])
 
   useEffect(() => {
     if (imageUrlBlob != null) {
@@ -147,9 +148,6 @@ const Draw = () => {
   //URL.createObjectURL().replace(/^blob:/, '')
   
   const shareOnSocials = () => {
-    // console.log(canvas.toDataURL())
-    // console.log(canvas.toDataURL('image/png'))
-    // console.log(imageUrl)
     console.log(file)
     if (navigator.share && file != undefined) {
       navigator.share({
@@ -163,7 +161,6 @@ const Draw = () => {
     } else {
       console.log('Web Share API not supported');
     }
-    
   }
 
   return (
