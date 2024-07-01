@@ -42,15 +42,14 @@ const ContextProducer = (props: any) => {
   const [data, setData] = useState("");
 
   const firebaseConfig = {
-    apiKey: "AIzaSyDJzAQfaLdzkRHjWgFLOZL0WZS7iKB99Gw",
-    authDomain: "sketchsync-6b298.firebaseapp.com",
-    projectId: "sketchsync-6b298",
-    storageBucket: "sketchsync-6b298.appspot.com",
-    messagingSenderId: "979935636964",
-    appId: "1:979935636964:web:ed38d0a792b6b3ac54ebf1",
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
   const auth = getAuth(app);

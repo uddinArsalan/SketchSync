@@ -30,7 +30,7 @@ const MainSection = () => {
         )}
         <header>
           <img
-            src="https://loremflickr.com/420/400/drawing"
+            src="https://loremflickr.com/1000/800/drawing"
             className="mainImg"
           />
           <div className="overText">

@@ -467,7 +467,7 @@ form input {
   .mainImg {
     object-fit: cover;
     width: 60%;
-    transform: translateZ(-10px) scale(2);
+    transform: translateZ(-5px) scale(1.5); 
   }
   .mainTexts {
     font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",

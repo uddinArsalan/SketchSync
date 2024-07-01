@@ -6,8 +6,8 @@ const GalleryCard = ({src} : any) => {
     return (
         <div className="gallery-card">
             <img src={src} alt="" className="img" />
-            <details></details>
-            <div>Favourites</div>
+            {/* <details></details> */}
+            {/* <div>Favourites</div> */}
         </div>
     )
 }
