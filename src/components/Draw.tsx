@@ -106,7 +106,6 @@ const Draw = () => {
         });
     }
   }, [canvas, isDrawing]);
-  
 
   // useEffect(() => {
   //   if (imageUrlBlob != null) {
@@ -139,7 +138,8 @@ const Draw = () => {
       <button onClick={PostDrawing} className="draw__post-btn">
         Post
       </button>
-      <div className="draw__canvas-container"
+      <div
+        className="draw__canvas-container"
         onTouchEnd={() => setIsDrawing(false)}
         onTouchCancel={() => setIsDrawing(false)}
         onPointerMove={(e) => mouseCoordinates(e)}
@@ -152,10 +152,10 @@ const Draw = () => {
         onMouseLeave={() => setIsDrawing(false)}
       >
         <aside className="draw__sidebar" ref={sidebarRef}>
-        <Link to="/">
-          <div className="draw__logo-container">
-            <img src={navLogo} alt="SketchSync Logo" className="draw__logo" />
-          </div>
+          <Link to="/">
+            <div className="draw__logo-container">
+              <img src={navLogo} alt="SketchSync Logo" className="draw__logo" />
+            </div>
           </Link>
           <div className="draw__controls">
             <div className="draw__control">
@@ -202,8 +202,10 @@ const Draw = () => {
         </aside>
         <div className="draw__canvas-wrapper">
           <canvas
-            width={isMobile ? window.innerWidth : window.innerWidth - sidebarWidth}
-            height={isMobile ? window.innerHeight - sidebarHeight : window.innerHeight}
+            width={
+              isMobile ? window.innerWidth : window.innerWidth - sidebarWidth
+            }
+            height={isMobile ? 2 * window.innerHeight : window.innerHeight}
             className="draw__canvas"
             ref={canvasRef}
           ></canvas>
