@@ -1,12 +1,6 @@
-import {
-  useRef,
-  useState,
-  MouseEvent,
-  useEffect,
-  ChangeEvent,
-} from "react";
+import { useRef, useState, MouseEvent, useEffect, ChangeEvent } from "react";
 import { useMediaQuery } from "react-responsive";
-import {LuPalette,LuType,LuUndo,LuSave,LuShare} from "react-icons/lu"
+import { LuPalette, LuType, LuUndo, LuSave, LuShare } from "react-icons/lu";
 import navLogo from "../assets/logo/sketchsync-high-resolution-logo-black-on-transparent-background.png";
 import { useFirebase } from "../context/FirebaseContext";
 import "../CSS/draw.css";
@@ -16,7 +10,7 @@ const Draw = () => {
   const sidebarRef = useRef<HTMLElement>(null);
   const [sidebarWidth, setSideBarWidth] = useState<number>(0);
   const [sidebarHeight, setSideBarHeight] = useState<number>(0);
-  const { updateImg,myDrawingSet,updateDataToUser } = useFirebase();
+  const { updateImg, myDrawingSet, updateDataToUser } = useFirebase();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas = canvasRef.current as HTMLCanvasElement;
   const [coordinates, setCoordinates] = useState<{
@@ -25,10 +19,11 @@ const Draw = () => {
   }>({ x: null, y: null });
   const c = canvas?.getContext("2d") as CanvasRenderingContext2D;
   const [color, setColor] = useState("");
-  const [imageUrlBlob,setImageUrlBlob] = useState<Blob | null>(null)
+  const [imageUrlBlob, setImageUrlBlob] = useState<Blob | null>(null);
   const [strokeWidth, setStrokeWidth] = useState(1.0);
   const [isDrawing, setIsDrawing] = useState(false);
   const [stateStack, setStateStack] = useState<ImageData[]>([]);
+  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
 
   const isMobile = useMediaQuery({
     query: "(max-width: 1100px)",
@@ -103,16 +98,37 @@ const Draw = () => {
   };
 
   useEffect(() => {
-    if(canvas){
+    if (canvas) {
       fetch(canvas.toDataURL())
-        .then(res => res.blob())
+        .then((res) => res.blob())
         .then((blob) => {
-          setImageUrlBlob(blob)
+          setImageUrlBlob(blob);
           // setImageUrl(URL.createObjectURL(blob).replace(/^blob:/, ''))
-        })
-      }
+        });
+    }
+  }, [canvas, isDrawing]);
+  useEffect(() => {
+    const handleResize = () => {
+      updateCanvasSize();
+    };
+
+    window.addEventListener('resize', handleResize);
+    updateCanvasSize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const updateCanvasSize = () => {
+    if (canvasRef.current && sidebarRef.current) {
+      const sidebarWidth = isMobile ? 0 : sidebarRef.current.offsetWidth;
+      const sidebarHeight = isMobile ? sidebarRef.current.offsetHeight : 0;
       
-  },[canvas,isDrawing])
+      setCanvasSize({
+        width: window.innerWidth - sidebarWidth,
+        height: window.innerHeight - sidebarHeight
+      });
+    }
+  };
 
   // useEffect(() => {
   //   if (imageUrlBlob != null) {
@@ -122,46 +138,38 @@ const Draw = () => {
   // }, [imageUrlBlob]);
 
   //URL.createObjectURL().replace(/^blob:/, '')
-  
+
   const shareOnSocials = () => {
     if (navigator.share && imageUrlBlob) {
-      navigator.share({
-        title: 'My Image',
-        text: 'Check out this awesome Art made my me using SketchSync!',
-        files : [new File([imageUrlBlob], 'sketch.png', { type: imageUrlBlob.type })]
-      })
-      .then(() => console.log('Shared successfully'))
-      .catch((error) => console.error('Error sharing:', error));
+      navigator
+        .share({
+          title: "My Image",
+          text: "Check out this awesome Art made my me using SketchSync!",
+          files: [
+            new File([imageUrlBlob], "sketch.png", { type: imageUrlBlob.type }),
+          ],
+        })
+        .then(() => console.log("Shared successfully"))
+        .catch((error) => console.error("Error sharing:", error));
     } else {
-      console.log('Web Share API not supported');
+      console.log("Web Share API not supported");
     }
-  }
+  };
 
   return (
     <div className="draw">
       <button onClick={PostDrawing} className="draw__post-btn">
         Post
       </button>
-      <div className="draw__canvas-container"
-        onTouchEnd={() => setIsDrawing(false)}
-        onTouchCancel={() => setIsDrawing(false)}
-        onPointerMove={(e) => mouseCoordinates(e)}
-        onPointerDown={(e) => handleMouseDown(e)}
-        onPointerUp={() => setIsDrawing(false)}
-        onPointerLeave={() => setIsDrawing(false)}
-        onMouseMove={(e) => mouseCoordinates(e)}
-        onMouseDown={(e) => handleMouseDown(e)}
-        onMouseUp={() => setIsDrawing(false)}
-        onMouseLeave={() => setIsDrawing(false)}
-      >
+      <div className="draw__canvas-container">
         <aside className="draw__sidebar" ref={sidebarRef}>
-        <Link to="/">
-          <div className="draw__logo-container">
-            <img src={navLogo} alt="SketchSync Logo" className="draw__logo" />
-          </div>
+          <Link to="/">
+            <div className="draw__logo-container">
+              <img src={navLogo} alt="SketchSync Logo" className="draw__logo" />
+            </div>
           </Link>
           <div className="draw__controls">
-            <div className="draw__control">
+            <div className="draw__control color-palette">
               <label htmlFor="color" className="draw__control-label">
                 <LuPalette className="draw__icon" />
                 <span>Color</span>
@@ -203,23 +211,30 @@ const Draw = () => {
             </button>
           </div>
         </aside>
-        <div className="draw__canvas-wrapper">
+        <div className="draw__canvas-wrapper"
+          onTouchEnd={() => setIsDrawing(false)}
+          onTouchCancel={() => setIsDrawing(false)}
+          onPointerMove={(e) => mouseCoordinates(e)}
+          onPointerDown={(e) => handleMouseDown(e)}
+          onPointerUp={() => setIsDrawing(false)}
+          onPointerLeave={() => setIsDrawing(false)}
+        >
           <canvas
-            width={isMobile ? window.innerWidth : window.innerWidth - sidebarWidth}
-            height={isMobile ? window.innerHeight - sidebarHeight : window.innerHeight}
+            width={canvasSize.width}
+            height={canvasSize.height}
             className="draw__canvas"
             ref={canvasRef}
           ></canvas>
         </div>
       </div>
-      {/* Modal code remains the same */}
     </div>
   );
 };
 
 export default Draw;
 
-{/* {modal &&
+{
+  /* {modal &&
         createPortal(
           <div className="modalBackground">
             <div className="modal">
@@ -270,4 +285,5 @@ export default Draw;
             </div>
           </div>,
           document.querySelector("#root") as HTMLElement
-        )} */}
+        )} */
+}

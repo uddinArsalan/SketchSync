@@ -1,20 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-*{
+* {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 .draw {
   position: relative;
   font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .draw__post-btn {
-  position: absolute;
+  position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 9;
+  z-index: 1000;
   cursor: pointer;
   color: white;
   background-color: rgb(251, 97, 14);
@@ -34,16 +37,17 @@
 .draw__canvas-container {
   display: flex;
   height: 100vh;
-  touch-action: none;
 }
 
 .draw__sidebar {
   background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
   width: 250px;
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  transition: transform 0.3s ease;
 }
 
 .draw__logo-container {
@@ -66,6 +70,10 @@
   gap: 0.5rem;
 }
 
+.color-palette{
+  display: flex;
+}
+
 .draw__control-label {
   display: flex;
   align-items: center;
@@ -76,8 +84,6 @@
 }
 
 .draw__color-picker {
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   width: 40px;
   height: 40px;
@@ -85,36 +91,10 @@
   border-radius: 8px;
   cursor: pointer;
   padding: 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.draw__color-picker::-webkit-color-swatch-wrapper {
-  padding: 0;
-}
-
-.draw__color-picker::-webkit-color-swatch {
-  border: none;
-  border-radius: 8px;
 }
 
 .draw__width-input {
-  appearance: none;
   width: 100%;
-  height: 5px;
-  border-radius: 5px;
-  background: #d3d3d3;
-  outline: none;
-}
-
-.draw__width-input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #ec9131;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .draw__action-btn {
@@ -130,17 +110,10 @@
   padding: 0.7rem;
   border-radius: 8px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .draw__action-btn:hover {
   background-color: rgba(255, 255, 255, 0.4);
-  transform: translateY(-2px);
-}
-
-.draw__icon {
-  width: 1.2rem;
-  height: 1.2rem;
 }
 
 .draw__canvas-wrapper {
@@ -149,6 +122,7 @@
   justify-content: center;
   align-items: center;
   background-color: #fff;
+  overflow: hidden;
 }
 
 .draw__canvas {
@@ -157,11 +131,13 @@
 
 @media screen and (max-width: 768px) {
   .draw__canvas-container {
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 
   .draw__sidebar {
     width: 100%;
+    max-height: 30vh;
+    overflow-y: auto;
     padding: 1rem;
   }
 
@@ -178,13 +154,29 @@
   .draw__action-btn {
     width: 31%;
   }
+
+  .draw__canvas-wrapper {
+    height: 70vh;
+  }
 }
 
 @media screen and (max-width: 480px) {
   .draw__control, .draw__action-btn {
     width: 100%;
   }
-}
 
-/* Hey I will give you different components and a long css styles file ok you need to adjust the UI make changes to classnames update the ui and make it best and break css of each component into seprate style sheet for better management and also update components accordingly make it best first of all take this long css file now remember it for next prompts and also choose css from it for this components update it and provide it ok
- improve sidebar color using css no need to cope up with better ui you can keep my color only for certain section but ensure its good and also works responsive*/
+  .draw__post-btn {
+    top: 10px;
+    right: 10px;
+    padding: 0.5em 1em;
+    font-size: 0.9rem;
+  }
+
+  .draw__sidebar {
+    max-height: 40vh;
+  }
+
+  .draw__canvas-wrapper {
+    height: 60vh;
+  }
+}
