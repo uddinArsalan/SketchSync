@@ -205,7 +205,7 @@ const Draw = () => {
             width={
               isMobile ? window.innerWidth : window.innerWidth - sidebarWidth
             }
-            height={isMobile ? window.innerHeight - sidebarHeight : window.innerHeight}
+            height={isMobile ? window.innerHeight : window.innerHeight}
             className="draw__canvas"
             ref={canvasRef}
           ></canvas>
