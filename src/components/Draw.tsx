@@ -23,7 +23,6 @@ const Draw = () => {
   const [strokeWidth, setStrokeWidth] = useState(1.0);
   const [isDrawing, setIsDrawing] = useState(false);
   const [stateStack, setStateStack] = useState<ImageData[]>([]);
-  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
 
   const isMobile = useMediaQuery({
     query: "(max-width: 1100px)",
@@ -107,28 +106,7 @@ const Draw = () => {
         });
     }
   }, [canvas, isDrawing]);
-  useEffect(() => {
-    const handleResize = () => {
-      updateCanvasSize();
-    };
-
-    window.addEventListener('resize', handleResize);
-    updateCanvasSize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const updateCanvasSize = () => {
-    if (canvasRef.current && sidebarRef.current) {
-      const sidebarWidth = isMobile ? 0 : sidebarRef.current.offsetWidth;
-      const sidebarHeight = isMobile ? sidebarRef.current.offsetHeight : 0;
-      
-      setCanvasSize({
-        width: window.innerWidth - sidebarWidth,
-        height: window.innerHeight - sidebarHeight
-      });
-    }
-  };
+  
 
   // useEffect(() => {
   //   if (imageUrlBlob != null) {
