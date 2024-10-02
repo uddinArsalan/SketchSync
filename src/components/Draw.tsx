@@ -161,15 +161,26 @@ const Draw = () => {
       <button onClick={PostDrawing} className="draw__post-btn">
         Post
       </button>
-      <div className="draw__canvas-container">
+      <div className="draw__canvas-container"
+        onTouchEnd={() => setIsDrawing(false)}
+        onTouchCancel={() => setIsDrawing(false)}
+        onPointerMove={(e) => mouseCoordinates(e)}
+        onPointerDown={(e) => handleMouseDown(e)}
+        onPointerUp={() => setIsDrawing(false)}
+        onPointerLeave={() => setIsDrawing(false)}
+        onMouseMove={(e) => mouseCoordinates(e)}
+        onMouseDown={(e) => handleMouseDown(e)}
+        onMouseUp={() => setIsDrawing(false)}
+        onMouseLeave={() => setIsDrawing(false)}
+      >
         <aside className="draw__sidebar" ref={sidebarRef}>
-          <Link to="/">
-            <div className="draw__logo-container">
-              <img src={navLogo} alt="SketchSync Logo" className="draw__logo" />
-            </div>
+        <Link to="/">
+          <div className="draw__logo-container">
+            <img src={navLogo} alt="SketchSync Logo" className="draw__logo" />
+          </div>
           </Link>
           <div className="draw__controls">
-            <div className="draw__control color-palette">
+            <div className="draw__control">
               <label htmlFor="color" className="draw__control-label">
                 <LuPalette className="draw__icon" />
                 <span>Color</span>
@@ -211,17 +222,10 @@ const Draw = () => {
             </button>
           </div>
         </aside>
-        <div className="draw__canvas-wrapper"
-          onTouchEnd={() => setIsDrawing(false)}
-          onTouchCancel={() => setIsDrawing(false)}
-          onPointerMove={(e) => mouseCoordinates(e)}
-          onPointerDown={(e) => handleMouseDown(e)}
-          onPointerUp={() => setIsDrawing(false)}
-          onPointerLeave={() => setIsDrawing(false)}
-        >
+        <div className="draw__canvas-wrapper">
           <canvas
-            width={canvasSize.width}
-            height={canvasSize.height}
+            width={isMobile ? window.innerWidth : window.innerWidth - sidebarWidth}
+            height={isMobile ? window.innerHeight - sidebarHeight : window.innerHeight}
             className="draw__canvas"
             ref={canvasRef}
           ></canvas>
