@@ -1,31 +1,59 @@
-import "../CSS/gallery.css"
-import { useContext } from "react"
-import { FirebaseContext } from "../context/FirebaseContext"
+import "../CSS/MyDrawings.css";
+import { useState } from "react";
+import { useFirebase } from "../context/FirebaseContext";
 
-const DrawingCard = ({src} : any) => {
-    return (
-        <div className="gallery-card">
-            <img src={src} alt="" className="img" />
-            <details></details>
-            <div>Favourites</div>
-        </div>
-    )
+interface DrawingCardProps {
+  src: string;
+  title: string;
 }
 
-const MyDrawings = () => {
-    const {myDrawingData} = useContext(FirebaseContext)
-    const newArray =  Object.values(myDrawingData) 
-    return (
-        <div className="galleyContainer">
-            <div className="GalleryHeading">My Drawings</div>
-            <div className="heading-description">Here You can view your drawings you save.</div>
-            <div className="galleryGrid">
-               {newArray.map((src,index) => {
-                return <DrawingCard src={src.usersData} key={index}/>
-               })}
-            </div>
-        </div>
-    )
-}
+const DrawingCard: React.FC<DrawingCardProps> = ({ src, title }) => {
+  const [isFavorite, setIsFavorite] = useState(false);
 
-export default MyDrawings
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
+
+  return (
+    <div className="drawing-card">
+      <img src={src} alt={title} className="drawing-card__image" />
+      <div className="drawing-card__overlay">
+        <h3 className="drawing-card__title">{title}</h3>
+        <button 
+          className={`drawing-card__favorite ${isFavorite ? 'drawing-card__favorite--active' : ''}`} 
+          onClick={toggleFavorite}
+        >
+          ♥
+        </button>
+      </div>
+      <details className="drawing-card__details">
+        <summary>More Info</summary>
+        <p>Created on: {new Date().toLocaleDateString()}</p>
+        <p>Size: 1024x768</p>
+      </details>
+    </div>
+  );
+};
+
+const MyDrawings: React.FC = () => {
+  const { myDrawingData } = useFirebase();
+  const drawings = Object.values(myDrawingData);
+
+  return (
+    <div className="my-drawings">
+      <h1 className="my-drawings__heading">My Drawings</h1>
+      <p className="my-drawings__description">Here you can view your saved drawings.</p>
+      <div className="my-drawings__grid">
+        {drawings.map((drawing, index) => (
+          <DrawingCard 
+            key={index} 
+            src={drawing.usersData} 
+            title={`Drawing ${index + 1}`} 
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default MyDrawings;

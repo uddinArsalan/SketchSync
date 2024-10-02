@@ -1,29 +1,33 @@
 import { Link } from "react-router-dom";
 import navLogo from "../assets/logo/navLogo.png";
+import "../CSS/navbar.css";
 
-interface propTypes {
-  isBarClicked : boolean,
-  setIsBarClicked :  React.Dispatch<React.SetStateAction<boolean>>
+interface NavbarProps {
+  isMenuOpen: boolean;
+  setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Navbar = ({isBarClicked,setIsBarClicked} : propTypes) => {
-  const icon = isBarClicked ? "ri-close-line" : "ri-menu-3-fill"
+const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
+  
   return (
     <nav className="navbar">
-    <img src={navLogo} alt="" className="navLogo" />
-    <div>
-    <i className={`${icon} barIcon`} onClick={() => setIsBarClicked(prev => !prev)}></i>
-      <ul className="nav--links">
-        <li className="home">Home</li>
-        <Link to="/gallery"><li>Gallery</li></Link>
-        <Link to="mydrawing"><li>My Drawings</li></Link>
-        <Link to="/test"><li>Collaborate</li></Link>
-        <li>Help/Support</li>
-        <Link to="/login"><li className="signUp">Login/SignUp</li></Link>
+      <Link to="/" className="navbar__logo-link">
+        <img src={navLogo} alt="SketchSync Logo" className="navbar__logo" />
+      </Link>
+      <button className="navbar__toggle" onClick={toggleMenu}>
+        <i className={`ri-${isMenuOpen ? 'close-line' : 'menu-3-fill'}`} />
+      </button>
+      <ul className={`navbar__links ${isMenuOpen ? 'navbar__links--active' : ''}`}>
+        <li><Link to="/" className="navbar__link">Home</Link></li>
+        <li><Link to="/gallery" className="navbar__link">Gallery</Link></li>
+        <li><Link to="/mydrawing" className="navbar__link">My Drawings</Link></li>
+        <li><Link to="/test" className="navbar__link">Collaborate</Link></li>
+        <li><Link to="/help" className="navbar__link">Help/Support</Link></li>
+        <li><Link to="/login" className="navbar__link navbar__link--signup">Login/SignUp</Link></li>
       </ul>
-    </div>
-  </nav>
-  )
-}
+    </nav>
+  );
+};
 
-export default Navbar
+export default Navbar;

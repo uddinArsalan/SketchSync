@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { FirebaseContext } from "../context/FirebaseContext";
+import { useFirebase } from "../context/FirebaseContext";
 import loginErrorImg from "../assets/mainImg/login Error.avif";
 
 const Test = () => {
-  const { data } = useContext(FirebaseContext);
+  const { data } = useFirebase();
   const isLogin = localStorage.getItem("isLogin");
   const srcImg = isLogin ? data : loginErrorImg;
 

@@ -2,20 +2,21 @@ import {
   useRef,
   useState,
   MouseEvent,
-  useContext,
   useEffect,
   ChangeEvent,
 } from "react";
 import { useMediaQuery } from "react-responsive";
-import strokeColor from "../assets/mainImg/strokeColor.png";
+import {LuPalette,LuType,LuUndo,LuSave,LuShare} from "react-icons/lu"
 import navLogo from "../assets/logo/sketchsync-high-resolution-logo-black-on-transparent-background.png";
-import { FirebaseContext } from "../context/FirebaseContext";
+import { useFirebase } from "../context/FirebaseContext";
+import "../CSS/draw.css";
+import { Link } from "react-router-dom";
 
 const Draw = () => {
   const sidebarRef = useRef<HTMLElement>(null);
-  const [sidebarWidth, setSideBarWidth] = useState(0);
-  const [sidebarHeight, setSideBarHeight] = useState(0);
-  const context = useContext(FirebaseContext);
+  const [sidebarWidth, setSideBarWidth] = useState<number>(0);
+  const [sidebarHeight, setSideBarHeight] = useState<number>(0);
+  const { updateImg,myDrawingSet,updateDataToUser } = useFirebase();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas = canvasRef.current as HTMLCanvasElement;
   const [coordinates, setCoordinates] = useState<{
@@ -28,7 +29,6 @@ const Draw = () => {
   const [strokeWidth, setStrokeWidth] = useState(1.0);
   const [isDrawing, setIsDrawing] = useState(false);
   const [stateStack, setStateStack] = useState<ImageData[]>([]);
-  const [fill, setFill] = useState(false);
 
   const isMobile = useMediaQuery({
     query: "(max-width: 1100px)",
@@ -48,7 +48,7 @@ const Draw = () => {
     let xPos = event.clientX - canvas.offsetLeft;
     let yPos = event.clientY - -canvas.offsetTop;
     let canvasImage = canvas?.toDataURL();
-    context.updateDataToUser(canvasImage!);
+    updateDataToUser(canvasImage);
     setCoordinates({ x: xPos, y: yPos });
     drawLine({ x: xPos, y: yPos });
   }
@@ -58,7 +58,6 @@ const Draw = () => {
   };
 
   function handleMouseDown(e: MouseEvent) {
-    setFill(false);
     setIsDrawing(true);
     setCoordinates({
       x: e.clientX - canvas.offsetLeft,
@@ -80,7 +79,7 @@ const Draw = () => {
     }
     if (canvas != undefined) {
       let canvasImage = canvas?.toDataURL();
-      context.updateDataToUser(canvasImage!);
+      updateDataToUser(canvasImage);
     }
   }, [isDrawing]);
 
@@ -93,15 +92,14 @@ const Draw = () => {
     }
   }
 
-  const fillHeart = () => {
-    setFill((prev) => !prev);
+  const saveDrawing = () => {
     let canvasImage = canvas?.toDataURL();
-    context.myDrawingSet(canvasImage!);
+    myDrawingSet(canvasImage!);
   };
 
   const PostDrawing = () => {
     let canvasImage = canvas?.toDataURL();
-    context.updateImg(canvasImage!);
+    updateImg(canvasImage);
   };
 
   useEffect(() => {
@@ -140,12 +138,11 @@ const Draw = () => {
   }
 
   return (
-    <div>
-      <button onClick={PostDrawing} className="postBtn">
+    <div className="draw">
+      <button onClick={PostDrawing} className="draw__post-btn">
         Post
       </button>
-      <div
-        className="canvas__container"
+      <div className="draw__canvas-container"
         onTouchEnd={() => setIsDrawing(false)}
         onTouchCancel={() => setIsDrawing(false)}
         onPointerMove={(e) => mouseCoordinates(e)}
@@ -157,81 +154,72 @@ const Draw = () => {
         onMouseUp={() => setIsDrawing(false)}
         onMouseLeave={() => setIsDrawing(false)}
       >
-        <aside className="side__panel" ref={sidebarRef}>
-          <div className="imgLogoDiv">
-            {/* <Link to="/"> */}
-            <img src={navLogo} alt="" className="drawLogo" />
-            {/* </Link> */}
+        <aside className="draw__sidebar" ref={sidebarRef}>
+        <Link to="/">
+          <div className="draw__logo-container">
+            <img src={navLogo} alt="SketchSync Logo" className="draw__logo" />
           </div>
-          <div className="sideIcons">
-            {/* <div className=" setFontSize">Draw Line</div> */}
-            {/* <div className="selectPencil setFontSize">Pencil</div> */}
-            <div className="icons_flex">
-              <label htmlFor="color">
-              <img src={strokeColor} alt="" className="iconsSize"/>
+          </Link>
+          <div className="draw__controls">
+            <div className="draw__control">
+              <label htmlFor="color" className="draw__control-label">
+                <LuPalette className="draw__icon" />
+                <span>Color</span>
               </label>
               <input
                 type="color"
                 name="color"
-                style={{ width: "30px", height: "30px", margin : "auto 0 auto 0" }}
+                id="color"
+                className="draw__color-picker"
                 onChange={(e) => getColor(e)}
               />
             </div>
-            {/* <div className="selectSkecthes setFontSize">Sketches</div> */}
-            <div className="icons_flex">
-              <label htmlFor="strokeWidth" className="text-bold">
-                Width
+            <div className="draw__control">
+              <label htmlFor="strokeWidth" className="draw__control-label">
+                <LuType className="draw__icon" />
+                <span>Width</span>
               </label>
               <input
-                type="number"
-                style={{ width: "30px", height: "30px" }}
+                type="range"
                 name="strokeWidth"
-                id=""
+                id="strokeWidth"
+                min="1"
+                max="50"
+                className="draw__width-input"
                 onChange={(e) => setStrokeWidth(parseInt(e.target.value))}
               />
             </div>
-            <div className="icons_flex">
-              <span className=" text-bold">Redo</span>
-              <i
-                className="ri-arrow-go-back-line icons_size"
-                onClick={redo}
-              ></i>
-            </div>
-
-            <div className="icons_flex">
-              <span className="text-bold">Save</span>
-              <div>
-                <i
-                  className={`ri-heart-${fill ? "fill" : "line"}`}
-                  onClick={fillHeart}
-                ></i>
-              </div>
-            </div>
-
-            <div className="icons_flex">
-              <span className=" text-bold">Share</span>
-              <i
-                className="ri-share-fill icons_size"
-                // onClick={() => setModal((prev) => !prev)}
-                onClick={shareOnSocials}
-              ></i>
-            </div>
+            <button className="draw__action-btn" onClick={redo}>
+              <LuUndo className="draw__icon" />
+              <span>Undo</span>
+            </button>
+            <button className="draw__action-btn" onClick={saveDrawing}>
+              <LuSave className="draw__icon" />
+              <span>Save</span>
+            </button>
+            <button className="draw__action-btn" onClick={shareOnSocials}>
+              <LuShare className="draw__icon" />
+              <span>Share</span>
+            </button>
           </div>
         </aside>
-        <div className="canvasContainer">
+        <div className="draw__canvas-wrapper">
           <canvas
-            width={
-              isMobile ? window.innerWidth : window.innerWidth - sidebarWidth
-            }
-            height={
-              isMobile ? window.innerHeight - sidebarHeight : window.innerHeight
-            }
-            className="canvas"
+            width={isMobile ? window.innerWidth : window.innerWidth - sidebarWidth}
+            height={isMobile ? window.innerHeight - sidebarHeight : window.innerHeight}
+            className="draw__canvas"
             ref={canvasRef}
           ></canvas>
         </div>
       </div>
-      {/* {modal &&
+      {/* Modal code remains the same */}
+    </div>
+  );
+};
+
+export default Draw;
+
+{/* {modal &&
         createPortal(
           <div className="modalBackground">
             <div className="modal">
@@ -283,8 +271,3 @@ const Draw = () => {
           </div>,
           document.querySelector("#root") as HTMLElement
         )} */}
-    </div>
-  );
-};
-
-export default Draw;

@@ -1,20 +1,21 @@
-import twitter from '../assets/logo/twitter-round-color-icon.png'
-import github from '../assets/logo/github-icon.png'
-import discord from '../assets/logo/discord-icon.png'
+import React from 'react';
+import { FaTwitter, FaGithub, FaDiscord } from 'react-icons/fa';
+import '../CSS/footer.css';
 
 const Footer = () => {
-    return (
-        <div className="footerBG">
-            <div className="icons">
-            <img src={twitter} alt=""  className="twitterIcon"/>
-            <img src={github} alt=""  className="githubIcon"/>
-            <img src={discord} alt=""  className="discordIcon"/>
-            </div>
-            <div className="footerContent">
-                <div className='textFooter'><span className='logoname'>SketchSync -</span> <div>An Online Whiteboard with Real-time collaboration</div></div>
-            </div>
-        </div>
-    );
+  return (
+    <footer className="footer">
+      <div className="footer__social-icons">
+        <a href="#" className="footer__icon-link"><FaTwitter className="footer__icon" /></a>
+        <a href="#" className="footer__icon-link"><FaGithub className="footer__icon" /></a>
+        <a href="#" className="footer__icon-link"><FaDiscord className="footer__icon" /></a>
+      </div>
+      <div className="footer__content">
+        <span className="footer__logo">SketchSync</span>
+        <p className="footer__description">An Online Whiteboard with Real-time collaboration</p>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

@@ -1,0 +1,74 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
+.navbar {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar__logo {
+    width: 200px;
+  }
+  
+  .navbar__toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .navbar__links {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar__link {
+    color: #333;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar__link:hover {
+    color: #f2af04;
+  }
+  
+  .navbar__link--signup {
+    background-color: #eedb8e;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .navbar__toggle {
+      display: block;
+    }
+  
+    .navbar__links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: #f9f9f9;
+      padding: 1rem;
+    }
+  
+    .navbar__links--active {
+      display: flex;
+    }
+  
+    .navbar__link {
+      padding: 0.5rem 0;
+    }
+  }

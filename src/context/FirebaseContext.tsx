@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect,useContext } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, onValue, push } from "firebase/database";
 import {
@@ -33,7 +33,11 @@ const FirebaseContext = createContext<CounterContextType>({
   loginUser: (email, password) => { },
 });
 
-const ContextProducer = (props: any) => {
+export function useFirebase(){
+  return useContext(FirebaseContext);
+}
+
+const ContextProducer = ({children} : {children : React.ReactNode}) => {
 
   const [galleryData, setGalleryData] = useState("")
   const [myDrawingData, setMyDrawingData] = useState("")
@@ -133,7 +137,7 @@ const ContextProducer = (props: any) => {
     <FirebaseContext.Provider
       value={{ updateDataToUser, data, signUpUser, errorMsg, isError, updateImg, galleryData, myDrawingData, loginUser, myDrawingSet }}
     >
-      {props.children}
+      {children}
     </FirebaseContext.Provider>
   );
 };
